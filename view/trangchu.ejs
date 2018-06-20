@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>HIHI</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+	<script>
+		$.get("/string",(word)=>{
+			$("#list").append(word);
+		});
+	</script>
+
+</head>
+<style>
+	div{
+		float:left;
+		text-align: justify;
+		padding: 5px;
+	}
+	#content{
+		border-right: 2px solid red;
+	}
+</style>
+<body> 
+	<div style="width:70%" id='content'>
+		<%- content %>	
+	</div>
+	<a href="#" onclick="callAjax()">List words</a>
+	<div style="width:28%" id='list'>
+		
+	</div>
+	
+</body>
+<script>
+	$(document).ready(()=>{
+
+		function callAjax(){
+		$.ajax({
+			url:'/string',
+			type:'GET',
+			contentType:'application/json',
+			data:{
+				word:$(this).html()
+			},success:(data)=>{
+				$("#list").append(data+"<br>");
+			}
+		});
+		}
+
+		$(".word").click(callAjax);
+
+	});
+	
+</script>
+
+</html>
