@@ -1,55 +1,147 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>HIHI</title>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
-	<script>
-		$.get("/string",(word)=>{
-			$("#list").append(word);
-		});
-	</script>
+	<title>New word</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<link href="https://fonts.googleapis.com/css?family=Dancing+Script" rel="stylesheet">
+
 
 </head>
 <style>
+	body{
+		font-family: 'Dancing Script', cursive;
+		background-image: url("background.jpg");
+		background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        font-size: 30px;
+	}
 	div{
-		float:left;
+		
 		text-align: justify;
 		padding: 5px;
+
 	}
 	#content{
-		border-right: 2px solid red;
+		border-right: 2px solid white;
 	}
-</style>
-<body> 
-	<div style="width:70%" id='content'>
-		<%- content %>	
-	</div>
-	<a href="#" onclick="callAjax()">List words</a>
-	<div style="width:28%" id='list'>
+	th{
+		text-align: center;
+		background: #8a97a0;
+		font-size: 40px;
+		padding: 10px;
+		border: 3px solid white;
+		margin: 10px 0px 10px 0px;
+		color: white;
+	}
+	td{
+		background: #f4f7f8;
+		opacity: 0.9; 
+	}
+
+	#list{
+		padding-left:10px;
+		overflow: auto;
+		height: 500px;
+		width: 100%;
+		opacity: 0.9; 
+	}
+	#content{
+		height: 500px;
+		padding: 10px;
+		width:600px;
+		opacity: 0.9;
+		font-family: arial; 
+
+	}
+	.element{
+		float: left;
+		clear: left;
+	}
+	table{
+		border-collapse: collapse;
+			
+		margin-top: 10px;
+		box-shadow: 0 5px 40px 0px #666;
+
 		
-	</div>
+	}
+	a:hover{
+		color:red;
+		cursor: pointer;
+	}
+
+
+</style>
+<body>
+	
+		<table align="center">
+		<tr>
+			<th >Nội dung</th>
+			<th >Từ mới</th>
+		</tr>
+		<tr>
+			<td  id='content'>
+				<textarea class="form-control" rows="10" id="myText" style="width:100%;height:500px;box-shadow: 5px 10px:">
+			
+				</textarea>
+				
+				
+			</td>
+			<td style="width:28%" >
+				<div id='list'>
+					
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<center><button style="opacity:1" onclick="setContent()" id='submit' class="btn btn-success">Submit</button></center>
+			</td>
+			<td>
+				<center><button class="btn btn-danger" onclick="delElement()">Xóa</button></center>
+			</td>
+		</tr>
+	</table>
+	
+	
+	
 	
 </body>
 <script>
 	$(document).ready(()=>{
 
-		function callAjax(){
+		window.callAjax=function(val){
 		$.ajax({
 			url:'/string',
 			type:'GET',
 			contentType:'application/json',
 			data:{
-				word:$(this).html()
+				word:val
 			},success:(data)=>{
-				$("#list").append(data+"<br>");
+				$("#list").append(data);
 			}
 		});
 		}
 
-		$(".word").click(callAjax);
 
 	});
 	
+</script>
+<script >
+	function setContent(){
+		var text=document.getElementById('myText').value.trim().replace(/[^\w\s]/gi, ' ').split(" ");
+		text.forEach((v,i)=>{text[i]="<a class='word' onclick='callAjax(this.innerHTML)'>"+v+"</a>"});
+		text=text.join(" ");
+		document.getElementById('content').innerHTML=text;
+		document.getElementById('submit').style.display='none';	
+	}
+
+	function delElement(){
+		var a=document.getElementsByClassName('element');
+		a[a.length-1].remove();
+	}
 </script>
 
 </html>

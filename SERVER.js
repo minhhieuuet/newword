@@ -7,22 +7,12 @@ app.use(express.static('public'));
 app.set("view engine","ejs");
 app.set("views","./view");
 var server=require('http').Server(app);
-var content;
-fs.readFile('./story.txt',"utf-8",(err,data)=>{
-	content=data;
-	content=content.replace(/[^\w\s]/gi, ' ').split(" ");
-	content.forEach((v,i)=>{content[i]="<a href='#' class='word' '>"+v+"</a>"});
-	content=content.join(" ");
-	});
-	
-
-
 server.listen(8080);
 
 app.get("/",function(req,res){
 	
 
-	res.render('trangchu',{content:content});
+	res.render('trangchu');
 	
 	res.end();
 });
@@ -34,7 +24,7 @@ app.get("/string",(req,res)=>{
 	 (async()=>{
 	 	word=await translate(req.query.word, {to: 'vi'}).then(res => {
     	
-    	 res1.send(req.query.word+" : "+res.text.toLowerCase());
+    	 res1.send("<div class='element'><b style='color:red'>"+req.query.word.toLowerCase()+"</b>"+" : "+res.text.toLowerCase()+"</div>");
     
 		}).catch(err => {
 		    console.error(err);
