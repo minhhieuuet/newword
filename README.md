@@ -1,2 +1,2 @@
 # newword
-hoctumoi.glitch.me
+https://hoctumoi.glitch.me
